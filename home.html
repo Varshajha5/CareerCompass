@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerCompass | Resume Analysis & HR Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-compass"></i>
+                <span>CareerCompass</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" data-section="home">Home</a></li>
+                    <li><a href="#" data-section="candidate">Candidate View</a></li>
+                    <li><a href="#" data-section="hr">HR Dashboard</a></li>
+                    <li><a href="#" data-section="about">About</a></li>
+                    <!--<li><a href="index.html" class="btn-signup">Signup</a></li>
+                    <li><a href="index.html" class="btn-login">Login</a></li>-->
+                </ul>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <!-- Home Section -->
+            <section class="section-home" id="home-section">
+                <section class="hero-section">
+                    <div class="hero-text">
+                        <h1>Unlock Your Career Potential</h1>
+                        <p class="subtitle">Turn your resume into results — analyze, optimize, and impress in seconds!.</p>
+                        <div class="cta-buttons">
+                            <button class="btn-primary" id="analyze-now">Analyze Now</button>
+                            <button class="btn-secondary">How It Works</button>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/6770/6770626.png" alt="Career growth illustration">
+                    </div>
+                </section>
+
+                <section class="upload-section" id="upload-section">
+                    <div class="upload-card">
+                        <div class="upload-header">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h2>Upload Your Resume</h2>
+                            <p>Supported formats: PDF, DOCX, DOC, TXT</p>
+                        </div>
+                        <div class="upload-area" id="drop-zone">
+                            <input type="file" id="resume-upload" accept=".pdf,.doc,.docx,.txt" hidden>
+                            <div class="upload-content">
+                                <i class="fas fa-file-alt"></i>
+                                <p>Drag & drop your resume here or</p>
+                                <button class="btn-outline" id="browse-btn">Browse Files</button>
+                            </div>
+                        </div>
+                        <div class="file-info" id="file-info"></div>
+                        <button class="btn-primary full-width" id="analyze-btn" disabled>Analyze Resume</button>
+                    </div>
+                </section>
+
+                <section class="results-section hidden" id="results-section">
+                    <div class="results-container">
+                        <div class="analysis-summary">
+                            <h2><i class="fas fa-chart-pie"></i> Resume Analysis</h2>
+                            <div class="summary-cards">
+                                <div class="summary-card">
+                                    <div class="card-icon skill-icon">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <h3>Skills</h3>
+                                    <div class="skills-container" id="skills-found"></div>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="card-icon exp-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <h3>Experience</h3>
+                                    <p class="summary-value" id="experience-level"></p>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="card-icon edu-icon">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <h3>Education</h3>
+                                    <p class="summary-value" id="education-level"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recommendations">
+                            <h2><i class="fas fa-book-open"></i> Recommended Courses</h2>
+                            <div class="course-filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="skill">Skill Development</button>
+                                <button class="filter-btn" data-filter="career">Career Growth</button>
+                                <button class="filter-btn" data-filter="certification">Certifications</button>
+                            </div>
+                            <div class="course-grid" id="course-recommendations"></div>
+                        </div>
+
+                        <!-- Job Opportunities Section -->
+                        <div class="job-recommendations">
+                            <h2><i class="fas fa-briefcase"></i> Job Opportunities</h2>
+                            <div class="job-portal-tabs">
+                                <button class="portal-tab active" data-portal="all">All Portals</button>
+                                <button class="portal-tab" data-portal="indeed">Indeed</button>
+                                <button class="portal-tab" data-portal="naukri">Naukri.com</button>
+                                <button class="portal-tab" data-portal="internshala">Internshala</button>
+                            </div>
+                            <div class="job-grid" id="job-recommendations"></div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- HR Dashboard Section -->
+            <section class="section-hr hidden" id="hr-section">
+                <div class="hr-dashboard">
+                    <div class="dashboard-header">
+                        <h2><i class="fas fa-user-tie"></i> HR Dashboard</h2>
+                        <div class="dashboard-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search candidates...">
+                            </div>
+                            <button class="btn-primary" id="add-job-btn">
+                                <i class="fas fa-plus"></i> Add Job Profile
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-filters">
+                        <div class="filter-group">
+                            <label>Job Profile:</label>
+                            <select id="job-profile-filter">
+                                <option value="all">All Profiles</option>
+                                <option value="frontend">Frontend Developer</option>
+                                <option value="backend">Backend Developer</option>
+                                <option value="fullstack">Full Stack Developer</option>
+                                <option value="data">Data Scientist</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Experience:</label>
+                            <select id="experience-filter">
+                                <option value="all">All Levels</option>
+                                <option value="entry">Entry Level (0-2 yrs)</option>
+                                <option value="mid">Mid Level (2-5 yrs)</option>
+                                <option value="senior">Senior (5+ yrs)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Status:</label>
+                            <select id="status-filter">
+                                <option value="all">All Statuses</option>
+                                <option value="new">New</option>
+                                <option value="reviewed">Reviewed</option>
+                                <option value="shortlisted">Shortlisted</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <button class="btn-secondary" id="apply-filters">Apply Filters</button>
+                        <button class="btn-outline" id="reset-filters">Reset</button>
+                    </div>
+
+                    <div class="candidates-list">
+                        <div class="list-header">
+                            <div class="header-item name">Candidate Name</div>
+                            <div class="header-item job">Job Profile</div>
+                            <div class="header-item exp">Experience</div>
+                            <div class="header-item skills">Key Skills</div>
+                            <div class="header-item status">Status</div>
+                            <div class="header-item rating">Rating</div>
+                            <div class="header-item actions">Actions</div>
+                        </div>
+                        <div class="list-body" id="candidates-list-body">
+                            <!-- Candidate items will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="pagination-controls">
+                        <button class="btn-outline" id="prev-page"><i class="fas fa-chevron-left"></i> Previous</button>
+                        <div class="page-numbers" id="page-numbers"></div>
+                        <button class="btn-outline" id="next-page">Next <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Job Profile Modal -->
+            <div class="modal hidden" id="job-profile-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Add New Job Profile</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="job-profile-form">
+                            <div class="form-group">
+                                <label for="job-title">Job Title*</label>
+                                <input type="text" id="job-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="job-department">Department*</label>
+                                <select id="job-department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="engineering">Engineering</option>
+                                    <option value="design">Design</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="hr">Human Resources</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="job-description">Job Description*</label>
+                                <textarea id="job-description" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="required-skills">Required Skills*</label>
+                                <div class="skills-input-container">
+                                    <input type="text" id="required-skills-input" placeholder="Add skills...">
+                                    <button type="button" class="btn-outline small" id="add-skill-btn">Add</button>
+                                </div>
+                                <div class="selected-skills" id="selected-skills"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="min-experience">Minimum Experience (years)*</label>
+                                <input type="number" id="min-experience" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="education-required">Education Required*</label>
+                                <select id="education-required" required>
+                                    <option value="any">Any</option>
+                                    <option value="highschool">High School</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="bachelors">Bachelor's Degree</option>
+                                    <option value="masters">Master's Degree</option>
+                                    <option value="phd">PhD</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary" id="cancel-job-profile">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Job Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- About Section -->
+        <section class="section-about" id="about-section">
+            <div class="about-container">
+                <h2>About CareerCompass</h2>
+                <p>CareerCompass is a comprehensive resume analysis and HR tool designed to help job seekers and HR professionals alike.</p>
+                <h3>Use Case</h3>
+                <ul class="use-case-list">
+                    <li><i class="fas fa-user"></i> <strong>Job Seekers:</strong> Upload your resume to get detailed analysis of your skills, experience, and education. Receive personalized course recommendations and job opportunities tailored to your profile.</li>
+                    <li><i class="fas fa-briefcase"></i> <strong>HR Professionals:</strong> Manage candidate profiles, filter applicants based on job requirements, and streamline your hiring process with our intuitive dashboard.</li>
+                    <li><i class="fas fa-bullseye"></i> Our mission is to empower individuals to unlock their career potential and help organizations find the best talent efficiently.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="loading-overlay hidden" id="loading-overlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h3>Analyzing your resume</h3>
+                <p>We're identifying your skills and experience to provide the best recommendations</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+
+</html>

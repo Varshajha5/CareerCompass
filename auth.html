@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Authentication</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .auth-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .auth-header h1 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .auth-header p {
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .auth-tab.active {
+            color: var(--primary);
+        }
+        
+        .auth-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .auth-content {
+            padding: 30px;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        /* Responsive adjustments */
+        
+        @media (max-width: 480px) {
+            .auth-container {
+                border-radius: 0;
+            }
+            body {
+                padding: 0;
+                background: white;
+            }
+            .auth-header {
+                padding: 25px 20px;
+            }
+            .auth-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Welcome Back</h1>
+            <p>Sign in to access your account or create a new one</p>
+        </div>
+
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-tab="login">Sign In</div>
+            <div class="auth-tab" data-tab="signup">Sign Up</div>
+        </div>
+
+        <div class="auth-content">
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                        <span class="toggle-password" data-target="loginPassword">Show</span>
+                    </div>
+                    <div id="loginError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Sign In</button>
+                </div>
+                <div class="auth-footer">
+                    <a href="#forgot-password">Forgot password?</a>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
+                        <span class="toggle-password" data-target="signupPassword">Show</span>
+                    </div>
+                    <small class="text-muted">Minimum 8 characters</small>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="signupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
+                        <span class="toggle-password" data-target="signupConfirmPassword">Show</span>
+                    </div>
+                    <div id="signupError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Create Account</button>
+                </div>
+                <div class="auth-footer">
+                    By signing up, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.auth-tab');
+        const forms = document.querySelectorAll('.auth-form');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+
+                tabs.forEach(t => t.classList.remove('active'));
+                forms.forEach(f => f.classList.remove('active'));
+
+
+                tab.classList.add('active');
+                const formId = tab.getAttribute('data-tab');
+                document.getElementById(`${formId}Form`).classList.add('active');
+            });
+        });
+
+
+        document.querySelectorAll('.toggle-password').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.textContent = type === 'password' ? 'Show' : 'Hide';
+            });
+        });
+
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorElement = document.getElementById('loginError');
+
+
+            if (!email || !password) {
+                errorElement.textContent = 'Please fill in all fields';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+
+            console.log('Login attempt with:', {
+                email,
+                password
+            });
+
+
+            errorElement.style.display = 'none';
+            alert('Login successful!');
+
+
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const errorElement = document.getElementById('signupError');
+
+
+            if (!name || !email || !password || !confirmPassword) {
+                errorElement.textContent = 'Please fill in all fields';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorElement.textContent = 'Passwords do not match';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            if (password.length < 8) {
+                errorElement.textContent = 'Password must be at least 8 characters';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            /
+            console.log('Signup attempt with:', {
+                name,
+                email,
+                password
+            });
+
+
+            errorElement.style.display = 'none';
+            alert('Account created successfully! ');
+
+
+        });
+    </script>
+</body>
+
+</html>
